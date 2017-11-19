@@ -43,13 +43,22 @@ export default {
       pages: 0
     }
   },
+  watch: {
+    '$route' (to, from) {
+      let num = parseInt(window.location.hash.split('=')[1])
+      if (!num) {
+        num = 1
+      }
+      this.showPage(num)
+    }
+  },
   created () {
     this.$store.dispatch('getNews', this.$route.params.id)
     this.buildPagination()
   },
   methods: {
     goBack: function () {
-      this.$router.go(-1)
+      this.$router.push('/')
     },
     sliceDate: function (date) {
       let slicedDate = date.slice(0, 10)
@@ -59,9 +68,11 @@ export default {
       let newsCount = this.news.length
       this.pages = Math.ceil(newsCount / this.newsPerPage)
       this.slicedNews = this.news.slice(0, this.newsPerPage)
+      window.location.href = '#page=1'
     },
     showPage: function (page) {
       this.slicedNews = this.news.slice(this.newsPerPage * page - this.newsPerPage, this.newsPerPage * page)
+      window.location.href = '#page=' + page + ''
     },
     showNews: function (id) {
       this.$store.dispatch('getNewsContent', id)
