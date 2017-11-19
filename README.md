@@ -1,4 +1,4 @@
-# sebia-test
+# sebbia-test
 
 > A Vue.js project
 
